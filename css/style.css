@@ -1,0 +1,237 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.game-board {
+    border: #000 10px solid;
+    width: 80%;
+    height: 500px;
+    border-bottom: 30px solid rgb(9, 169, 33);
+    margin: 7% auto;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(#53deee, #d5edfe);
+}
+
+.pipe {
+    position: absolute;
+    bottom: 0;
+    width: 80px;
+    animation: pipe-animation 1.5s infinite linear;
+    -webkit-animation: pipe-animation 1.5s infinite linear;
+}
+
+.mario {
+    position: absolute;
+    bottom: 0;
+    width: 150px;
+}
+
+.mario-transformation {
+    position: absolute;
+    bottom: 135px;
+    width: 320px;
+    animation: transformation 500ms ease-in-out;
+    -webkit-animation: transformation 500ms ease-in-out;
+}
+
+.mario-ssj {
+    position: absolute;
+    bottom: 180px;
+    width: 260px;
+    animation: flying 650ms infinite linear;
+    -webkit-animation: flying 650ms infinite linear;
+}
+
+.mario-back-to-normal {
+    position: absolute;
+    bottom: 135px;
+    width: 320px;
+    animation: back-to-normal 700ms ease-out;
+    -webkit-animation: back-to-normal 700ms ease-out;
+}
+
+.jump {
+    animation: jump 500ms ease-out;
+    transform-origin: bottom;
+    -webkit-animation: jump 500ms ease-out;
+}
+
+.clouds{
+    position: absolute;
+    top: 3%;
+    width: 390px;
+    animation: cloud-animation 20s infinite linear;
+    -webkit-animation: cloud-animation 20s infinite linear;
+}
+
+.score {
+    position: absolute;
+    top: 5%;
+    right: 10%;
+    font-size: 36px; 
+    color: #000; 
+    font-weight: bold;
+}
+
+
+.timer {
+    position: absolute;
+    top: 5%;
+    right: 82.4%;
+    font-size: 36px;
+    color: #000; 
+    font-weight: bold;
+    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+    width: 120px; 
+}
+
+
+@keyframes pipe-animation {
+    from{
+        right: -80px;
+    }
+    to{
+        right: 100%;
+    }
+}
+
+@keyframes jump {
+    0% {
+        bottom: 0;
+    }
+
+    40%{
+        bottom: 190px;
+    }
+
+    50%{
+        bottom: 190px;
+    }
+
+    60%{
+        bottom: 190px;
+    }
+    70%{
+        bottom: 190px;
+    }
+
+    100%{
+        bottom: 0;
+    }
+}
+
+@keyframes transformation {
+    0% {
+        
+        right: 77.5%;
+        bottom: -80px;
+    }
+
+    25% {
+        
+        right: 76%;
+        bottom: 125px;
+    }
+
+    50% {
+
+        right: 75.5%;
+        bottom: 130px;
+    }
+
+    55% {
+        right: 75%;
+        bottom: 133px;
+    }
+
+    60% {
+        right: 74.5%;
+        bottom: 135px
+    }
+
+    65% {
+        right: 74%;
+        bottom: 136px
+    }
+
+    80%{
+        right: 73.5%;
+        bottom: 137px
+    }
+
+    100%{
+        right: 73%;
+        bottom: 138px
+    }
+
+}
+
+@keyframes flying {
+    0% {
+        right: 71%;
+    }
+
+    50%{
+        right: 70%;
+    }
+
+    100%{
+        right: 71%;
+    }
+
+}
+
+@keyframes back-to-normal {
+    0% {
+        right: 73%;
+        bottom: 138px;
+    }
+
+    20% {
+        right: 73.5%;
+        bottom: 120px;
+    }
+
+    35% {
+        right: 74%;
+        bottom: 110px;
+    }
+
+    40% {
+        right: 74.5%;
+        bottom: 100px;
+    }
+
+    45% {
+        right: 75%;
+        bottom: 90px;
+    }
+
+    50% {
+        right: 75.5%;
+        bottom: 60px;
+    }
+
+    75% {
+        right: 76%;
+        bottom: 40px;
+    }
+
+    100% {
+        right: 77.5%;
+        bottom: -60px;
+    }
+}
+
+
+@keyframes cloud-animation {
+    from{
+        left: 100%;
+    }
+    to{
+        left:-390px;
+    }
+}
