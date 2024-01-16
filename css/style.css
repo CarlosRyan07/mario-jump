@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+body {
+    font-family: Tahoma, sans-serif;
+}
+
 .game-board {
     border: #000 10px solid;
     width: 80%;
@@ -80,12 +84,26 @@
 .timer {
     position: absolute;
     top: 5%;
-    right: 82.4%;
+    right: 82%;
     font-size: 36px;
     color: #000; 
     font-weight: bold;
     white-space: nowrap; /* Impede que o texto quebre em várias linhas */
     width: 120px; 
+}
+
+.keyboard-space {
+    position: absolute;
+    bottom: 40px; /* Ajuste conforme necessário */
+    left: 10%; /* Ajuste conforme necessário */
+    width: 400px; /* Ajuste conforme necessário */
+}
+
+.keyboard-enter {
+    position: absolute;
+    bottom: 15px; /* Ajuste conforme necessário */
+    left: 78%; /* Ajuste conforme necessário */
+    width: 180px; /* Ajuste conforme necessário */
 }
 
 
