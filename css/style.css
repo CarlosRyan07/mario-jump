@@ -11,9 +11,9 @@ body {
 .game-board {
     border: #000 10px solid;
     width: 80%;
-    height: 500px;
+    height: 540px;
     border-bottom: 30px solid rgb(9, 169, 33);
-    margin: 7% auto;
+    margin: 4% auto;
     position: relative;
     overflow: hidden;
     background: linear-gradient(#53deee, #d5edfe);
@@ -73,7 +73,7 @@ body {
 
 .score {
     position: absolute;
-    top: 5%;
+    top: 2%;
     right: 10%;
     font-size: 36px; 
     color: #000; 
@@ -83,7 +83,7 @@ body {
 
 .timer {
     position: absolute;
-    top: 5%;
+    top: 2%;
     right: 82%;
     font-size: 36px;
     color: #000; 

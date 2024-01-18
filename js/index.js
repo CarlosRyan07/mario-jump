@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const mario = document.querySelector(".mario");
     const pipe = document.querySelector(".pipe");
     const clouds = document.querySelector(".clouds");
@@ -38,11 +38,30 @@ document.addEventListener("DOMContentLoaded", () => {
     detransform.volume = 0.9; 
     theme.volume = 1.0; // 50% do volume
 
+    // Função para carregar os áudios de forma assíncrona
+    const loadAudios = () => {
+        return Promise.all([
+            new Promise((resolve) => { death.addEventListener('canplaythrough', resolve); death.load(); }),
+            new Promise((resolve) => { jumping.addEventListener('canplaythrough', resolve); jumping.load(); }),
+            new Promise((resolve) => { transforming.addEventListener('canplaythrough', resolve); transforming.load(); }),
+            new Promise((resolve) => { flying.addEventListener('canplaythrough', resolve); flying.load(); }),
+            new Promise((resolve) => { detransform.addEventListener('canplaythrough', resolve); detransform.load(); }),
+            new Promise((resolve) => { theme.addEventListener('canplaythrough', resolve); theme.load(); })
+        ]);
+    };
+
+    // Espera que todos os áudios sejam carregados antes de prosseguir
+    await loadAudios();
 
     const jump = () => {
         if (!(isJumping || isSsj || isReturningToNormal)) {
-            
             keyboardSpace.src = "img/keyboard-space-pressed.png";
+            
+            // Verificar se o som anterior terminou completamente antes de reproduzir
+            if (!jumping.paused) {
+                jumping.currentTime = 0;
+            }
+
             jumping.play();
 
             isJumping = true;
@@ -59,96 +78,74 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-   
-   
     let canDetransform = true;
 
     const transformToSsj = () => {
         if (!isJumping) {
-
             keyboardEnter.src = "img/keyboard-enter-pressed.png";
-
             transforming.play();
 
             isSsj = true;
-            mario.src = "img/mario-transformation.gif"; // Imagem de transformação
+            mario.src = "img/mario-transformation.gif";
             mario.style.bottom = "135px";
             mario.style.width = "320px";
             mario.style.animation = "transformation 2s ease-out";
-    
-            // Após 3 segundos, mude para a forma SSJ
+
             setTimeout(() => {
                 keyboardEnter.src = "img/keyboard-enter.png";
-
                 flying.play();
 
                 mario.src = "img/mario-ssj.gif";
                 mario.style.bottom = "180px";
                 mario.style.width = "260px";
-    
-                // Ajuste a velocidade das nuvens ao entrar no modo SSJ
+
                 cloudsSpeed = initialCloudsSpeed * 5;
-    
-                // Ajuste a velocidade do cano ao entrar no modo SSJ
                 pipeSpeed = initialPipeSpeed * 5;
             }, 3000);
-    
-            // Impede a destransformação durante 3 segundos
+
             canDetransform = false;
             setTimeout(() => {
                 canDetransform = true;
             }, 3000);
         }
     }
-    
+
     const transformToNormal = () => {
         if (isSsj && !isJumping && canDetransform) {
             keyboardEnter.src = "img/keyboard-enter-pressed.png";
-
             flying.pause();
             detransform.play();
-            
+
             isReturningToNormal = true;
             isSsj = false;
             mario.src = "img/back-to-normal.gif";
             mario.style.bottom = "135px";
             mario.style.width = "300px";
             mario.style.animation = "back-to-normal 3s ease-out";
-    
+
             cloudsSpeed = 0.2;
-    
+
             setTimeout(() => {
                 keyboardEnter.src = "img/keyboard-enter.png";
                 isReturningToNormal = false;
                 mario.style.bottom = "0";
                 mario.style.width = "150px";
                 mario.src = "img/mario.gif";
-    
+
                 cloudsSpeed = initialCloudsSpeed;
                 pipeSpeed = initialPipeSpeed;
-    
             }, 3000);
         }
-    }    
-
-
-    const increaseSpeedThreshold = 30;
-    let speedIncreaseCounter = 0;
-
-
+    }
 
     const increaseScore = () => {
         score++;
         scoreDisplay.innerText = `Score: ${score}`;
 
-        // Verifica se atingiu o limite para aumentar a velocidade
-        if (score % increaseSpeedThreshold === 0) {
+        if (score % 30 === 0) {
             speedIncreaseCounter++;
-            // Ajusta a velocidade do cano e das nuvens
-            pipe.style.animationDuration =  initialPipeSpeed + speedIncreaseCounter * 0.1;
-            clouds.style.animationDuration =  initialPipeSpeed + speedIncreaseCounter * 0.1;
-            //pipeSpeed = initialPipeSpeed + speedIncreaseCounter * 0.1;
-            //cloudsSpeed = initialCloudsSpeed + speedIncreaseCounter * 0.1;
+            pipe.style.animationDuration = initialPipeSpeed + speedIncreaseCounter * 0.1;
+            clouds.style.animationDuration = initialPipeSpeed + speedIncreaseCounter * 0.1;
         }
     }
 
@@ -156,10 +153,9 @@ document.addEventListener("DOMContentLoaded", () => {
         location.reload();
     }
 
-
     const loop = setInterval(() => {
         theme.play();
-    
+
         const pipePosition = pipe.offsetLeft;
         const marioPosition = +window.getComputedStyle(mario).bottom.replace("px", "");
         const cloudsPosition = clouds.offsetLeft;
@@ -168,62 +164,54 @@ document.addEventListener("DOMContentLoaded", () => {
             pipe.style.animation = "none";
             pipe.style.right = "100%";
         }
-    
+
         if (!isReturningToNormal) {
             pipe.style.animation = "pipe-animation 1.5s infinite linear";
         }
-    
+
         if (pipePosition <= 124 && pipePosition > 0 && marioPosition < 100 && !cloudsStopped) {
             pipe.style.animation = "none";
             pipe.style.left = `${pipePosition}px`;
-    
+
             clouds.style.animation = "none";
             clouds.style.left = `${cloudsPosition}px`;
             cloudsStopped = true;
-    
+
             mario.style.animation = "none";
-            mario.style.bottom = `${marioPosition}px`;
-    
+                        mario.style.bottom = `${marioPosition}px`;
+
             mario.src = "img/game-over.png";
             mario.style.width = "75px";
             mario.style.marginLeft = "51px";
-    
+
             theme.pause();
             death.play();
-    
+
             clearInterval(loop);
-    
+
             document.addEventListener("keydown", restartGame);
         }
-    
+
         if (pipePosition <= 0 && !cloudsStopped && !isReturningToNormal) {
             increaseScore();
         }
-        
-    
+
         const currentTime = Date.now();
         const elapsedTime = currentTime - startTime;
-    
+
         const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
-    
+
         timerDisplay.innerText = `Time: ${minutes}:${seconds}`;
-        
-    
-        // Ajusta a velocidade do cano com base no tempo decorrido
+
         pipe.style.animationDuration = `${1.5 / pipeSpeed}s`;
-    
-        // Ajusta a velocidade das nuvens com base no tempo decorrido
         clouds.style.animationDuration = `${20 / cloudsSpeed}s`;
-    
-        // Ajusta a posição das nuvens com base na velocidade (acelera ou desacelera)
+
         cloudsPosition -= cloudsSpeed;
         clouds.style.left = `${cloudsPosition}px`;
-    
+
     }, 10);
-    
-    
-    
+
     document.addEventListener("keydown", (event) => {
         if (event.code === "Space" || event.key === " ") {
             jump();
@@ -234,5 +222,5 @@ document.addEventListener("DOMContentLoaded", () => {
                 transformToNormal();
             }
         }
-    });    
+    });
 });
