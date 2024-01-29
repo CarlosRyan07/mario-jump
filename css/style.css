@@ -11,9 +11,9 @@ body {
 .game-board {
     border: #000 10px solid;
     width: 80%;
-    height: 540px;
+    height: 565px;
     border-bottom: 30px solid rgb(9, 169, 33);
-    margin: 4% auto;
+    margin: 3.5% auto;
     position: relative;
     overflow: hidden;
     background: linear-gradient(#53deee, #d5edfe);
@@ -31,6 +31,15 @@ body {
     position: absolute;
     bottom: 0;
     width: 150px;
+    z-index: 2;
+}
+
+.event-bowser {
+    position: absolute;
+    bottom: 180px;
+    width: 2700px;
+    animation: bowser-animation 23s ease-out;
+    -webkit-animation: bowser-animation 23s ease-out;
 }
 
 .mario-transformation {
@@ -69,11 +78,12 @@ body {
     width: 390px;
     animation: cloud-animation 20s infinite linear;
     -webkit-animation: cloud-animation 20s infinite linear;
+    z-index: 1;
 }
 
 .score {
     position: absolute;
-    top: 2%;
+    top: 1%;
     right: 10%;
     font-size: 36px; 
     color: #000; 
@@ -83,7 +93,7 @@ body {
 
 .timer {
     position: absolute;
-    top: 2%;
+    top: 1%;
     right: 82%;
     font-size: 36px;
     color: #000; 
@@ -94,18 +104,87 @@ body {
 
 .keyboard-space {
     position: absolute;
-    bottom: 40px; /* Ajuste conforme necessário */
+    bottom: 30px; /* Ajuste conforme necessário */
     left: 10%; /* Ajuste conforme necessário */
     width: 400px; /* Ajuste conforme necessário */
 }
 
 .keyboard-enter {
     position: absolute;
-    bottom: 15px; /* Ajuste conforme necessário */
+    bottom: 5px; /* Ajuste conforme necessário */
     left: 78%; /* Ajuste conforme necessário */
     width: 180px; /* Ajuste conforme necessário */
 }
 
+.thanks-message {
+    position: absolute;
+    left: 50%;
+    bottom: 450px;
+    font-size: 60px;
+    color: #fffca2;
+    font-weight: bold;
+    transform: translateX(-50%);
+    animation: slideUp 3s ease-out;
+    -webkit-animation: slideUp 3s ease-out;
+}
+
+
+.restart-message {
+    position: absolute;
+    left: 38%;
+    bottom: 380px;
+    font-size: 30px;
+    color: #ffffff;
+    animation: fadeInOut 2s linear infinite;
+    -webkit-animation: fadeInOut 2s linear infinite;
+}
+
+@keyframes fadeInOut {
+    0% ,100%{
+        opacity: 0;
+    }
+    
+    50% {
+        opacity: 1;
+    }
+}
+
+
+@keyframes slideUp {
+    from {
+        bottom: 140px;
+    }
+    to {
+        bottom: 450px;
+    }
+}
+
+
+@keyframes bowser-animation {
+
+    0% {
+        right:2%;
+        bottom: 138px;
+    }
+
+    5% {
+        right:6%;
+    
+        bottom: -57.2px;
+    }
+
+    97% {
+    
+        bottom: -58px;
+    }
+
+    100% {
+        right:6%;
+        bottom: 140px;
+    }
+
+
+}
 
 @keyframes pipe-animation {
     from{
@@ -154,32 +233,6 @@ body {
         bottom: 125px;
     }
 
-    50% {
-
-        right: 75.5%;
-        bottom: 130px;
-    }
-
-    55% {
-        right: 75%;
-        bottom: 133px;
-    }
-
-    60% {
-        right: 74.5%;
-        bottom: 135px
-    }
-
-    65% {
-        right: 74%;
-        bottom: 136px
-    }
-
-    80%{
-        right: 73.5%;
-        bottom: 137px
-    }
-
     100%{
         right: 73%;
         bottom: 138px
@@ -208,40 +261,21 @@ body {
         bottom: 138px;
     }
 
-    20% {
-        right: 73.5%;
-        bottom: 120px;
-    }
-
-    35% {
-        right: 74%;
-        bottom: 110px;
-    }
-
-    40% {
-        right: 74.5%;
-        bottom: 100px;
-    }
-
-    45% {
-        right: 75%;
-        bottom: 90px;
-    }
-
-    50% {
-        right: 75.5%;
-        bottom: 60px;
-    }
-
-    75% {
-        right: 76%;
-        bottom: 40px;
-    }
-
     100% {
         right: 77.5%;
-        bottom: -60px;
+        bottom: -62px;
     }
+}
+
+@keyframes end-game{
+
+    0% {        
+        right: 71%;
+    }
+    100%{
+        right: -20%;
+    }
+
 }
 
 
